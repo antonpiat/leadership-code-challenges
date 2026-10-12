@@ -11,6 +11,7 @@ export class FundingTx extends Model {
     declare amount: string;
     declare pspRef: string | null;
     declare turnoverMultiplier: number | null;
+    // TODO: add Disputed + callbackAmount 
 }
 
 export function initFundingTx(sequelize: Sequelize): void {
