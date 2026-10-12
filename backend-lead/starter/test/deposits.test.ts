@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { createApp } from '../src/app';
 import { sequelize } from '../src/db/sequelize';
-import '../src/db/models';
+import { FundingTx } from '../src/db/models';
 
 const app = createApp();
 
@@ -54,9 +54,26 @@ describe('POST /deposits', () => {
         expect(res.status).toBe(400);
     });
 
-    it('rejects a negative turnover multiplier', async () => {
+    it('defaults turnoverMultiplier to 1', async () => {
         const memberId = await createMember();
-        const res = await request(app).post('/deposits').send({ memberId, amount: '10', turnoverMultiplier: -1 });
+        const res = await request(app).post('/deposits').send({ memberId, amount: '10' });
+
+        const deposit = await FundingTx.findByPk(res.body.id);
+        expect(deposit?.turnoverMultiplier).toBe(1);
+    });
+
+    it('accepts a turnoverMultiplier of 0', async () => {
+        const memberId = await createMember();
+        const res = await request(app).post('/deposits').send({ memberId, amount: '10', turnoverMultiplier: 0 });
+
+        expect(res.status).toBe(201);
+        const deposit = await FundingTx.findByPk(res.body.id);
+        expect(deposit?.turnoverMultiplier).toBe(0);
+    });
+
+    it.each([-1, 1.5, '2'])('rejects invalid turnoverMultiplier %p', async (turnoverMultiplier) => {
+        const memberId = await createMember();
+        const res = await request(app).post('/deposits').send({ memberId, amount: '10', turnoverMultiplier });
         expect(res.status).toBe(400);
     });
 });
