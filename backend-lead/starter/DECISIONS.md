@@ -29,3 +29,6 @@ version upgrades that could break the project, so I left them.
 - Duplicate callbacks wait for each other; the second sees the final status and does nothing.
 - Wager locks the wallet row before checking the balance, so concurrent wagers can't overdraw.
 - Withdrawal locks the wallet before checking turnover and balance.
+
+## AI
+I used AI for three things: fixing bugs when `npm test` failed, writing test code, and reviewing the solution.
