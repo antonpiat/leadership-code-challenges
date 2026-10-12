@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
 export type FundingTxType = 'deposit' | 'withdrawal';
-export type FundingTxStatus = 'Pending' | 'Completed' | 'Failed';
+export type FundingTxStatus = 'Pending' | 'Completed' | 'Failed' | 'Disputed';
 
 export class FundingTx extends Model {
     declare id: string;
@@ -11,7 +11,7 @@ export class FundingTx extends Model {
     declare amount: string;
     declare pspRef: string | null;
     declare turnoverMultiplier: number | null;
-    // TODO: add Disputed + callbackAmount 
+    declare callbackAmount: string | null;
 }
 
 export function initFundingTx(sequelize: Sequelize): void {
@@ -24,6 +24,7 @@ export function initFundingTx(sequelize: Sequelize): void {
             amount: { type: DataTypes.DECIMAL(36, 18), allowNull: false },
             pspRef: { type: DataTypes.STRING, allowNull: true, unique: true },
             turnoverMultiplier: { type: DataTypes.INTEGER, allowNull: true },
+            callbackAmount: { type: DataTypes.DECIMAL(36, 18), allowNull: true },
         },
         { sequelize, tableName: 'funding_txs', underscored: true },
     );

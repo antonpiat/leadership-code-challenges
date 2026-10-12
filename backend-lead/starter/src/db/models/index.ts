@@ -1,7 +1,7 @@
 import { sequelize } from '../sequelize';
 import { Member, initMember } from './member';
 import { Wallet, initWallet } from './wallet';
-import { FundingTx, initFundingTx } from './funtingTx';
+import { FundingTx, initFundingTx } from './fundingTx';
 import { Wager, initWager } from './wager';
 import { WalletTx, initWalletTx } from './walletTx';
 
