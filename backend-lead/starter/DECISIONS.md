@@ -18,7 +18,10 @@ version upgrades that could break the project, so I left them.
 - Unknown `pspRef` in callback: 404, nothing changes.
 - Repeated callback with the same status: 200, nothing changes.
 - Conflicting callback (e.g. failed after completed): 409, nothing changes.
+- Wager with insufficient balance: 422.
+- Unknown wallet: 404.
 
 ## Locking & concurrency
 - Callback runs in one transaction: lock the deposit row, then the wallet row.
 - Duplicate callbacks wait for each other; the second sees the final status and does nothing.
+- Wager locks the wallet row before checking the balance, so concurrent wagers can't overdraw.
