@@ -20,8 +20,12 @@ version upgrades that could break the project, so I left them.
 - Conflicting callback (e.g. failed after completed): 409, nothing changes.
 - Wager with insufficient balance: 422.
 - Unknown wallet: 404.
+- Withdrawal blocked by turnover: 422 with the outstanding amount.
+- Withdrawal with insufficient balance: 422.
+- Turnover counters only grow; they are never reset after a withdrawal.
 
 ## Locking & concurrency
 - Callback runs in one transaction: lock the deposit row, then the wallet row.
 - Duplicate callbacks wait for each other; the second sees the final status and does nothing.
 - Wager locks the wallet row before checking the balance, so concurrent wagers can't overdraw.
+- Withdrawal locks the wallet before checking turnover and balance.
