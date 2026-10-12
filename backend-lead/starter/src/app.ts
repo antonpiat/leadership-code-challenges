@@ -12,6 +12,11 @@ const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     res.status(400).json({ error: 'validation_error', details: err.issues });
     return;
   }
+  // Malformed JSON body (e.g. a broken PSP payload) is a client error, not a server error
+  if ((err as { type?: string }).type === 'entity.parse.failed') {
+    res.status(400).json({ error: 'invalid_json' });
+    return;
+  }
   // eslint-disable-next-line no-console
   console.error(err);
   res.status(500).json({ error: 'internal_error' });

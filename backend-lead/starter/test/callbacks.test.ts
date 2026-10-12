@@ -109,4 +109,12 @@ describe('POST /psp/callbacks', () => {
         const res = await callback('does-not-exist', 'completed', '10');
         expect(res.status).toBe(404);
     });
+
+    it('returns 400 for a malformed JSON body', async () => {
+        const res = await request(app)
+            .post('/psp/callbacks')
+            .set('Content-Type', 'application/json')
+            .send('{"pspRef": "abc", broken');
+        expect(res.status).toBe(400);
+    });
 });
