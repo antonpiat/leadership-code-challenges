@@ -1,0 +1,1 @@
+// TODO: create wallet_txs model

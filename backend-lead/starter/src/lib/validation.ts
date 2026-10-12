@@ -1,0 +1,1 @@
+// TODO: create shared money amount validator

@@ -1,6 +1,7 @@
 import { sequelize } from '../sequelize';
 import { Member, initMember } from './member';
 import { Wallet, initWallet } from './wallet';
+// TODO: import funding_txs, wagers, wallet_txs models
 
 initMember(sequelize);
 initWallet(sequelize);

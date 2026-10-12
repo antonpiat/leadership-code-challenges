@@ -5,6 +5,7 @@ export class Wallet extends Model {
   declare memberId: string;
   // DECIMAL comes back from the pg driver as a string. Keep it that way; see src/lib/money.ts.
   declare balance: string;
+  // TODO: add turnover_required and turnover_accrued columns
 }
 
 export function initWallet(sequelize: Sequelize): void {
