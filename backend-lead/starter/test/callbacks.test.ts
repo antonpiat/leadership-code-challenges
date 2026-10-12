@@ -6,8 +6,12 @@ import { dec } from '../src/lib/money';
 
 const app = createApp();
 
+let warnSpy: jest.SpyInstance;
+
 beforeAll(async () => {
     await sequelize.authenticate();
+    // The 404 and 409 tests log warnings on purpose; keep the test output clean
+    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => { });
 });
 
 beforeEach(async () => {
@@ -15,6 +19,7 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
+    warnSpy.mockRestore();
     await sequelize.close();
 });
 
